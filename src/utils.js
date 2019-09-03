@@ -3,10 +3,10 @@
  */
 module.exports.getQueryOrBodyParam = (req, param) => {
   const { query, body } = req;
-  if (query[param]) {
-    return query[param]
+  if (query && query[param]) {
+    return query[param];
   }
   if (body && body[param]) {
-    return body[param]
+    return body[param];
   }
-}
+};
