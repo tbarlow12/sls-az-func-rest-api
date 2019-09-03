@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Azure Functions sample for the Serverless framework",
   "scripts": {
-    "test": "echo \"No tests yet...\"",
-    "start": "sls offline"
+    "start": "sls offline",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "test": "jest"
   },
   "keywords": [
     "azure",
@@ -14,6 +16,10 @@
     "axios": "^0.19.0"
   },
   "devDependencies": {
-    "serverless-azure-functions": "^1.0.0"
+    "serverless-azure-functions": "^1.0.0",
+    "axios-mock-adapter": "^1.17.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.3.0",
+    "jest": "^24.9.0"
   }
 }
