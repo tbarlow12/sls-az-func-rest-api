@@ -92,3 +92,6 @@ bin
 obj
 appsettings.json
 local.settings.json
+
+# Webpack artifacts
+.webpack/
