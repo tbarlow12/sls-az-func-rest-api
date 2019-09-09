@@ -3,7 +3,9 @@ service: sls-az-func-rest-api
 provider:
   name: azure
   runtime: nodejs10.x
-  region: West US
+  region: ${opt:region, 'West US'}
+  stage: ${opt:stage, 'dev'}
+  prefix: ${opt:prefix, 'demo'}
   apim: true
 
 plugins:
