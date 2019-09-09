@@ -4,6 +4,7 @@ provider:
   name: azure
   runtime: nodejs10.x
   region: West US
+  apim: true
 
 plugins:
   - serverless-azure-functions
@@ -20,9 +21,13 @@ functions:
       - http: true
         x-azure-settings:
           authLevel: anonymous
+          methods:
+            - GET
   pulls:
     handler: src/handlers/pulls.handler
     events:
       - http: true
         x-azure-settings:
           authLevel: anonymous
+          methods:
+            - GET
