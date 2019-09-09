@@ -4,7 +4,37 @@ provider:
   name: azure
   runtime: nodejs10.x
   region: West US
-  apim: true
+  apim:
+    apis:
+      - name: github-api
+        subscriptionRequired: false
+        displayName: Github API
+        description: The GitHub API
+        protocols:
+          - https
+        # Defaults to /api
+        path: github
+        tags:
+          - apimTag1
+          - apimTag2
+        authorization: none
+    backends:
+      - name: github-backend
+        url: api/github
+    cors:
+      allowCredentials: false
+      allowedOrigins:
+        - "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+      allowedHeaders:
+        - "*"
+      exposeHeaders:
+        - "*"
 
 plugins:
   - serverless-azure-functions
@@ -17,12 +47,26 @@ package:
 functions:
   issues:
     handler: src/handlers/issues.handler
+    apim:
+      api: github-api
+      backend: github-backend
+      operations:
+        - method: get
+          urlTemplate: /issues
+          displayName: GetIssues
     events:
       - http: true
         x-azure-settings:
           authLevel: function
   pulls:
     handler: src/handlers/pulls.handler
+    apim:
+      api: github-api
+      backend: github-backend
+      operations:
+        - method: get
+          urlTemplate: /pulls
+          displayName: GetPullRequests
     events:
       - http: true
         x-azure-settings:
