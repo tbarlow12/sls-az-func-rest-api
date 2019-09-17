@@ -1,0 +1,42 @@
+pr:
+  branches:
+    include:
+    - master
+    - dev
+
+strategy:
+  matrix:
+    Linux_Node8:
+      imageName: 'ubuntu-16.04'
+      node_version: 8.x
+    Linux_Node10:
+      imageName: 'ubuntu-16.04'
+      node_version: 10.x
+    Mac_Node8:
+      imageName: 'macos-10.14'
+      node_version: 8.x
+    Mac_Node10:
+      imageName: 'macos-10.14'
+      node_version: 10.x
+    Windows_Node8:
+      imageName: 'win1803'
+      node_version: 8.x
+    Windows_Node10:
+      imageName: 'win1803'
+      node_version: 10.x
+
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops#use-a-microsoft-hosted-agent
+pool:
+  vmImage: $(imageName)
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: $(node_version)
+  displayName: 'Install Node.js'
+
+- bash: |
+    set -euo pipefail
+    npm ci
+    npm test
+  displayName: 'Run tests'
