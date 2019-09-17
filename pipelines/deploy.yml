@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+    - master
+
+variables:
+- group: sls-deploy-creds
+
+jobs:
+
+- job: "Deploy Azure Function App"
+  timeoutInMinutes: 30
+  cancelTimeoutInMinutes: 1
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: 10.x
+    displayName: 'Install Node.js'
+
+  - bash: |
+      npm install -g serverless
+    displayName: 'Install Serverless'
+
+  - bash: |
+      npm ci
+      sls deploy
+    env:
+      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+      AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    displayName: 'Deploy Azure Function App'
